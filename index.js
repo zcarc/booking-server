@@ -31,6 +31,22 @@ app.use(express.json());
 app.use("/auth", authRoute);
 app.use("/hotels", hotelsRoute);
 
+app.use((err, req, res, next) => {
+  console.log("error middleware...");
+  const errorStatus = err.status || 500;
+  const errorMessage = err.message || "Something went wrong!";
+
+  console.log("err.status: ", err.status);
+  console.log("err.message: ", err.message);
+
+  return res.status(errorStatus).json({
+    success: false,
+    status: errorStatus,
+    message: errorMessage,
+    stack: err.stack,
+  });
+});
+
 app.listen(8800, () => {
   connect();
   console.log("Connected to backend.");
