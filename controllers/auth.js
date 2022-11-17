@@ -43,9 +43,9 @@ export const login = async (req, res, next) => {
     bcrypt.compare(
       myPlaintextPassword,
       hash,
-      function (err, isPasswordCorrent) {
-        console.log("isPasswordCorrent: ", isPasswordCorrent);
-        if (!isPasswordCorrent) {
+      function (err, isPasswordCorrect) {
+        console.log("isPasswordCorrect: ", isPasswordCorrect);
+        if (!isPasswordCorrect) {
           return next(createError(400, "Wrong password or username!"));
         }
 
