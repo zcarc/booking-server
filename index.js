@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import authRoute from "./routes/auth.js";
 import hotelsRoute from "./routes/hotels.js";
+import usersRoute from "./routes/users.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 dotenv.config();
@@ -25,11 +27,12 @@ mongoose.connection.on("connected", () => {
 });
 
 // middlewares
-
+app.use(cookieParser());
 app.use(express.json());
 
 app.use("/auth", authRoute);
 app.use("/hotels", hotelsRoute);
+app.use("/users", usersRoute);
 
 app.use((err, req, res, next) => {
   console.log("error middleware...");
