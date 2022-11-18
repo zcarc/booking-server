@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import cors from "cors";
 import authRoute from "./routes/auth.js";
 import hotelsRoute from "./routes/hotels.js";
 import usersRoute from "./routes/users.js";
@@ -28,6 +29,10 @@ mongoose.connection.on("connected", () => {
 });
 
 // middlewares
+
+// Enable All CORS Requests
+app.use(cors());
+
 app.use(cookieParser());
 app.use(express.json());
 
