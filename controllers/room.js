@@ -41,13 +41,16 @@ export const updateRoom = async (req, res, next) => {
 };
 
 export const deleteRoom = async (req, res, next) => {
+  const roomId = req.params.id;
   const hotelId = req.params.hotelid;
+
   try {
-    await Room.findByIdAndDelete(req.params.id);
+    await Room.findByIdAndDelete(roomId);
 
     try {
+      // hotelid로 호텔을 찾고 rooms 배열에서 해당 roomId를 제거
       await Hotel.findByIdAndUpdate(hotelId, {
-        $pull: { rooms: req.params.id },
+        $pull: { rooms: roomId },
       });
     } catch (err) {
       next(err);
