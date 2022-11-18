@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import authRoute from "./routes/auth.js";
 import hotelsRoute from "./routes/hotels.js";
 import usersRoute from "./routes/users.js";
+import roomsRoute from "./routes/rooms.js";
 import cookieParser from "cookie-parser";
 
 const app = express();
@@ -33,6 +34,7 @@ app.use(express.json());
 app.use("/auth", authRoute);
 app.use("/hotels", hotelsRoute);
 app.use("/users", usersRoute);
+app.use("/rooms", roomsRoute);
 
 app.use((err, req, res, next) => {
   console.log("error middleware...");
