@@ -49,20 +49,24 @@ export const login = async (req, res, next) => {
           return next(createError(400, "Wrong password or username!"));
         }
 
-        const { password, isAdmin, ...otherDetails } = user._doc;
-        console.log("...otherDetails: ", { ...otherDetails });
-
         const token = jwt.sign(
           { id: user._id, isAdmin: user.isAdmin },
           process.env.JWT_SECRET_KEY
         );
+
+        const { password, isAdmin, ...otherDetails } = user._doc;
+
+        console.log("{ ...otherDetails, isAdmin }: ", {
+          ...otherDetails,
+          isAdmin,
+        });
 
         res
           .cookie("access_token", token, {
             httpOnly: true,
           })
           .status(200)
-          .json({ ...otherDetails });
+          .json({ details: { ...otherDetails }, isAdmin });
       }
     );
   } catch (error) {
