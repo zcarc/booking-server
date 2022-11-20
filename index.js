@@ -31,7 +31,10 @@ mongoose.connection.on("connected", () => {
 // middlewares
 
 // Enable All CORS Requests
-app.use(cors());
+// origin: true로 설정함으로써 req.header('Origin') 출처를 허용
+// credentials: true로 설정함으로써 CORS header를 구성
+// Credentials란 쿠키, 인증헤더, TLS client certificates(증명서)를 말함
+app.use(cors({ origin: true, credentials: true }));
 
 app.use(cookieParser());
 app.use(express.json());
