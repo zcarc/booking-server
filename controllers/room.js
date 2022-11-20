@@ -40,6 +40,31 @@ export const updateRoom = async (req, res, next) => {
   }
 };
 
+export const updateRoomAvailability = async (req, res, next) => {
+  console.log("updateRoomAvailability...");
+  console.log("req.body.dates: ", req.body.dates);
+
+  try {
+    // roomNumbers 배열의 각 객체에서 req.params.id (room number)와 일치하는 _id를 검색
+    // 이 Room 자체의 id가 아니라 이 Room의 인스턴스 (몇호인지) 를 찾음
+    await Room.updateOne(
+      { "roomNumbers._id": req.params.id },
+      {
+        // roomNumbers 배열의 unavailableDates 배열에 req.body.dates 추가
+        // 클라이언트에서 보낸 dates (숙박할 기간)를 해당 방호수의 unavailableDates에 dates (숙박할 기간)를 추가
+        // 클라이언트에서는 객실 (Room)의 각 방의 호수 (roomNumber)의 unavailableDates에 지정한 숙박할 기간 (dates)이 포함되어 있다면 객실 호수 체크박스를 비활성화함
+        $push: {
+          "roomNumbers.$.unavailableDates": req.body.dates,
+        },
+      }
+    );
+
+    res.status(200).json("Room 상태가 업데이트 되었습니다.");
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const deleteRoom = async (req, res, next) => {
   const roomId = req.params.id;
   const hotelId = req.params.hotelid;
