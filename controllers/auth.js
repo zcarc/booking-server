@@ -11,8 +11,7 @@ export const register = (req, res, next) => {
     bcrypt.genSalt(saltRounds, function (err, salt) {
       bcrypt.hash(myPlaintextPassword, salt, async function (err, hash) {
         const newUser = new User({
-          username: req.body.username,
-          email: req.body.email,
+          ...req.body,
           password: hash,
         });
 
